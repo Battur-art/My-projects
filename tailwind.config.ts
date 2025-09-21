@@ -22,6 +22,7 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          hover: "hsl(var(--primary-hover))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -47,18 +48,14 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // F1 Specific Colors
-        'f1-black': 'hsl(var(--f1-black))',
-        'f1-red': 'hsl(var(--f1-red))',
-        'f1-white': 'hsl(var(--f1-white))',
-        'f1-gray': 'hsl(var(--f1-gray))',
-        'f1-dark-gray': 'hsl(var(--f1-dark-gray))',
-        'f1-carbon': 'hsl(var(--f1-carbon))',
-        'f1-silver': 'hsl(var(--f1-silver))',
-      },
-      fontFamily: {
-        'racing': ['Oswald', 'ui-sans-serif', 'system-ui'],
-        'sans': ['Inter', 'ui-sans-serif', 'system-ui'],
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -82,52 +79,10 @@ export default {
             height: "0",
           },
         },
-        "fade-in": {
-          "0%": {
-            opacity: "0",
-            transform: "translateY(20px)"
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translateY(0)"
-          }
-        },
-        "slide-in-left": {
-          "0%": {
-            opacity: "0",
-            transform: "translateX(-30px)"
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translateX(0)"
-          }
-        },
-        "scale-in": {
-          "0%": {
-            opacity: "0",
-            transform: "scale(0.9)"
-          },
-          "100%": {
-            opacity: "1",
-            transform: "scale(1)"
-          }
-        },
-        "racing-pulse": {
-          "0%, 100%": {
-            opacity: "1"
-          },
-          "50%": {
-            opacity: "0.7"
-          }
-        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-in": "fade-in 0.6s ease-out",
-        "slide-in-left": "slide-in-left 0.5s ease-out",
-        "scale-in": "scale-in 0.4s ease-out",
-        "racing-pulse": "racing-pulse 2s ease-in-out infinite",
       },
     },
   },
