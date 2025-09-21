@@ -1,48 +1,45 @@
-export interface Phone {
+export interface Product {
   id: string;
   name: string;
-  brand: 'Apple' | 'Samsung';
-  model: string;
   price: number;
   originalPrice?: number;
   image: string;
+  images: string[];
   description: string;
-  features: string[];
-  inStock: boolean;
+  category: 'men' | 'women' | 'unisex';
+  sizes: string[];
+  colors: string[];
   isNew?: boolean;
   isBestSeller?: boolean;
-  colors: string[];
-  storage: string[];
-  rating: number;
-  reviews: number;
+  stock: number;
 }
 
 export interface CartItem {
-  phone: Phone;
+  product: Product;
   quantity: number;
-  selectedColor: string;
-  selectedStorage: string;
+  size: string;
+  color: string;
 }
 
-export interface User {
-  id: string;
+export interface Customer {
   name: string;
   email: string;
-  phone?: string;
-  address?: string;
+  phone: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+  };
 }
 
 export interface Order {
   id: string;
-  userId: string;
   items: CartItem[];
+  customer: Customer;
+  paymentMethod: 'cod' | 'stripe';
   total: number;
-  customerInfo: {
-    name: string;
-    email: string;
-    phone: string;
-    address: string;
-  };
-  orderDate: string;
   status: 'pending' | 'confirmed' | 'shipped' | 'delivered';
+  createdAt: Date;
 }

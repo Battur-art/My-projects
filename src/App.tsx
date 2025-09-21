@@ -1,57 +1,141 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { CartProvider } from "@/contexts/CartContext";
-import { AuthProvider } from "@/contexts/AuthContext";
-import { Navbar } from "@/components/Navbar";
+import React, { useState } from 'react';
+import { CartProvider } from './context/CartContext';
+import Header from './components/Header';
+import HomePage from './components/pages/HomePage';
+import ShopPage from './components/pages/ShopPage';
+import ProductDetailPage from './components/pages/ProductDetailPage';
+import CartPage from './components/pages/CartPage';
+import CheckoutPage from './components/pages/CheckoutPage';
+import OrderConfirmationPage from './components/pages/OrderConfirmationPage';
+import ContactPage from './components/pages/ContactPage';
 
-// Pages
-import { Home } from "./pages/Home";
-import { Products } from "./pages/Products";
-import { ProductDetail } from "./pages/ProductDetail";
-import { Cart } from "./pages/Cart";
-import { Login } from "./pages/Login";
-import { Register } from "./pages/Register";
-import { Checkout } from "./pages/Checkout";
-import { OrderConfirmation } from "./pages/OrderConfirmation";
-import { About } from "./pages/About";
-import { Contact } from "./pages/Contact";
-import NotFound from "./pages/NotFound";
+function App() {
+  const [currentPage, setCurrentPage] = useState('home');
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+  const [orderId, setOrderId] = useState<string | null>(null);
 
-const queryClient = new QueryClient();
+  const handleNavigate = (page: string, additionalData?: string) => {
+    setCurrentPage(page);
+    
+    if (page === 'product' && additionalData) {
+      setSelectedProductId(additionalData);
+    }
+    
+    if (page === 'order-confirmation' && additionalData) {
+      setOrderId(additionalData);
+    }
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <AuthProvider>
-        <CartProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <div className="min-h-screen bg-background">
-              <Navbar />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/order-confirmation" element={<OrderConfirmation />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+    // Scroll to top on navigation
+    window.scrollTo(0, 0);
+  };
+
+  const renderCurrentPage = () => {
+    switch (currentPage) {
+      case 'home':
+        return <HomePage onNavigate={handleNavigate} />;
+      case 'shop':
+        return <ShopPage onNavigate={handleNavigate} />;
+      case 'product':
+        return selectedProductId ? (
+          <ProductDetailPage 
+            productId={selectedProductId} 
+            onNavigate={handleNavigate} 
+          />
+        ) : <ShopPage onNavigate={handleNavigate} />;
+      case 'cart':
+        return <CartPage onNavigate={handleNavigate} />;
+      case 'checkout':
+        return <CheckoutPage onNavigate={handleNavigate} />;
+      case 'order-confirmation':
+        return orderId ? (
+          <OrderConfirmationPage 
+            orderId={orderId} 
+            onNavigate={handleNavigate} 
+          />
+        ) : <HomePage onNavigate={handleNavigate} />;
+      case 'contact':
+        return <ContactPage onNavigate={handleNavigate} />;
+      default:
+        return <HomePage onNavigate={handleNavigate} />;
+    }
+  };
+
+  return (
+    <CartProvider>
+      <div className="min-h-screen bg-gray-50">
+        <Header currentPage={currentPage} onNavigate={handleNavigate} />
+        <main>
+          {renderCurrentPage()}
+        </main>
+        
+        {/* Footer */}
+        <footer className="bg-slate-900 text-white py-12 mt-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              <div className="md:col-span-2">
+                <h3 className="text-xl font-bold mb-4">StyleHub</h3>
+                <p className="text-gray-300 mb-4 max-w-md">
+                  Your destination for premium clothing that combines comfort, style, and quality. 
+                  Discover fashion that fits your lifestyle.
+                </p>
+                <div className="flex space-x-4">
+                  <button className="text-gray-300 hover:text-white transition-colors">Facebook</button>
+                  <button className="text-gray-300 hover:text-white transition-colors">Instagram</button>
+                  <button className="text-gray-300 hover:text-white transition-colors">Twitter</button>
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold mb-4">Quick Links</h4>
+                <div className="space-y-2">
+                  <button 
+                    onClick={() => handleNavigate('shop')}
+                    className="block text-gray-300 hover:text-white transition-colors"
+                  >
+                    Shop
+                  </button>
+                  <button 
+                    onClick={() => handleNavigate('contact')}
+                    className="block text-gray-300 hover:text-white transition-colors"
+                  >
+                    Contact
+                  </button>
+                  <button className="block text-gray-300 hover:text-white transition-colors">
+                    Size Guide
+                  </button>
+                  <button className="block text-gray-300 hover:text-white transition-colors">
+                    Returns
+                  </button>
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold mb-4">Support</h4>
+                <div className="space-y-2">
+                  <button className="block text-gray-300 hover:text-white transition-colors">
+                    FAQ
+                  </button>
+                  <button className="block text-gray-300 hover:text-white transition-colors">
+                    Shipping
+                  </button>
+                  <button className="block text-gray-300 hover:text-white transition-colors">
+                    Track Order
+                  </button>
+                  <button className="block text-gray-300 hover:text-white transition-colors">
+                    Privacy Policy
+                  </button>
+                </div>
+              </div>
             </div>
-          </BrowserRouter>
-        </CartProvider>
-      </AuthProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+            
+            <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
+              <p>&copy; 2025 StyleHub. All rights reserved.</p>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </CartProvider>
+  );
+}
 
 export default App;
