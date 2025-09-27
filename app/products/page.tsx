@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/enhanced-button";
@@ -10,7 +10,7 @@ import { phones } from "@/data/phones";
 import { Search, Filter, X } from "lucide-react";
 import { FadeIn } from "@/components/anim/FadeIn";
 
-export default function ProductsPage() {
+function ProductsPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -195,5 +195,13 @@ export default function ProductsPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center">Loading...</div>}>
+      <ProductsPageContent />
+    </Suspense>
   );
 }

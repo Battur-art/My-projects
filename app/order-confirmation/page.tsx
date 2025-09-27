@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from 'react';
+import React, { useMemo, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/enhanced-button';
@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { CheckCircle, Package, Truck, Home, ArrowRight } from 'lucide-react';
 import { lsGet } from '@/utils/storage';
 
-export default function OrderConfirmationPage() {
+function OrderConfirmationPageContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams?.get('orderId');
 
@@ -178,5 +178,13 @@ export default function OrderConfirmationPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function OrderConfirmationPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center">Loading...</div>}>
+      <OrderConfirmationPageContent />
+    </Suspense>
   );
 }
