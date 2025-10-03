@@ -7,18 +7,18 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
-// Pages (React Router)
-import { Home } from "./pages/Home";
-import { Products } from "./pages/Products";
-import { ProductDetail } from "./pages/ProductDetail";
-import { Cart } from "./pages/Cart";
-import { Login } from "./pages/Login";
-import Register from "./pages/Register";
-import { Checkout } from "./pages/Checkout";
-import { OrderConfirmation } from "./pages/OrderConfirmation";
-import { About } from "./pages/About";
-import { Contact } from "./pages/Contact";
-import NotFound from "./pages/NotFound";
+// Views (React Router)
+import { Home } from "./views/Home";
+import { Products } from "./views/Products";
+import { ProductDetail } from "./views/ProductDetail";
+import { Cart } from "./views/Cart";
+import { Login } from "./views/Login";
+import Register from "./views/Register";
+import { Checkout } from "./views/Checkout";
+import { OrderConfirmation } from "./views/OrderConfirmation";
+import { About } from "./views/About";
+import { Contact } from "./views/Contact";
+import NotFound from "./views/NotFound";
 
 const queryClient = new QueryClient();
 
