@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/enhanced-button';
@@ -11,39 +11,19 @@ import { lsGet } from '@/utils/storage';
 
 export default function OrderConfirmationPage() {
   const searchParams = useSearchParams();
-  const [orderId, setOrderId] = useState<string | null>(null);
-  const [isClient, setIsClient] = useState(false);
-
-  // Handle client-side hydration
-  useEffect(() => {
-    setIsClient(true);
-    setOrderId(searchParams?.get('orderId') || null);
-  }, [searchParams]);
+  const orderId = searchParams?.get('orderId');
 
   const order = useMemo(() => {
-    if (!isClient || !orderId) return null;
+    if (!orderId) return null;
     const orders = lsGet<any[]>('orders', []);
     return orders.find((o: any) => o.id === orderId) || null;
-  }, [isClient, orderId]);
-
-  // Show loading state during hydration
-  if (!isClient) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading order details...</p>
-        </div>
-      </div>
-    );
-  }
+  }, [orderId]);
 
   if (!order) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Order not found</h1>
-          <p className="text-muted-foreground mb-4">The order you're looking for doesn't exist or has expired.</p>
           <Link href="/">
             <Button variant="gradient">Go Home</Button>
           </Link>

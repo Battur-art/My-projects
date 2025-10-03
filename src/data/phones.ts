@@ -128,27 +128,33 @@ export const phones: Phone[] = [
     reviews: 25
   },
   {
-    id: 's25 ultra',
+    id: 's25-ultra',
     name: 'Galaxy S25 Ultra',
     brand: 'Samsung',
-    model: 'S25',
+    model: 'S25 Ultra',
     price: 3000000,
     image: '/images/s25ultra.png',
     imagesByColor: {
-      'Phantom Black': '/images/s25.png',
-      Cream: '/images/s25.png',
-      Green: '/images/s25.png',
-      Blue: '/images/s25.png',
+      'Phantom Black': '/images/s25ultra.png',
+      'Cream': '/images/s25ultra.png',
+      'Green': '/images/s25ultra.png',
+      'Blue': '/images/s25ultra.png',
     },
-    description: 'Samsung Galaxy S25 — хүчирхэг Snapdragon 8 Gen 4 чип, шинэ камерын системтэй.',
-    features: ['Snapdragon 8 Gen 4', 'Dynamic AMOLED 2X', 'Triple-camera system', '5000mAh battery'],
+    description: 'Samsung Galaxy S25 Ultra — дэлхийд тэргүүлэгч камер, S Pen дэмжлэгтэй, хамгийн дэвшилтэт Galaxy утас.',
+    features: [
+      'Snapdragon 8 Gen 4',
+      'Dynamic AMOLED 2X 120Hz',
+      '200MP Quad-camera system',
+      'S Pen support',
+      '5000mAh battery with 45W fast charging'
+    ],
     inStock: true,
     isNew: true,
     isBestSeller: true,
     colors: ['Phantom Black', 'Cream', 'Green', 'Blue'],
-    storage: ['128GB', '256GB', '512GB'],
+    storage: ['256GB', '512GB', '1TB'],
     rating: 4.9,
-    reviews: 25
+    reviews: 32
   },
   {
     id: 's25-plus',
