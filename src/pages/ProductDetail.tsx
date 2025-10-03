@@ -1,211 +1,275 @@
-import { useParams, Link } from "react-router-dom"
-import { ArrowLeft, Star, Heart, Share2, Plus, Minus } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { useCart } from "@/contexts/CartContext"
-import { products } from "@/data/products"
-import { useState } from "react"
+import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/enhanced-button';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ArrowLeft, Star, ShoppingCart, Heart, Share2, Check } from 'lucide-react';
+import { getPhoneById } from '@/data/phones';
+import { useCart } from '@/contexts/CartContext';
+import { toast } from '@/hooks/use-toast';
 
-const ProductDetail = () => {
-  const { id } = useParams<{ id: string }>()
-  const product = products.find((p) => p.id === Number(id))
-  const { addToCart, removeFromCart, isInCart } = useCart()
-  const [quantity, setQuantity] = useState(1)
-  const [isLiked, setIsLiked] = useState(false)
+export const ProductDetail: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
+  
+  const [selectedColor, setSelectedColor] = useState<string>('');
+  const [selectedStorage, setSelectedStorage] = useState<string>('');
+  const [quantity, setQuantity] = useState(1);
 
-  if (!product) {
+  const phone = id ? getPhoneById(id) : null;
+
+  React.useEffect(() => {
+    if (phone && phone.colors.length > 0) {
+      setSelectedColor(phone.colors[0]);
+    }
+    if (phone && phone.storage.length > 0) {
+      setSelectedStorage(phone.storage[0]);
+    }
+  }, [phone]);
+
+  if (!phone) {
     return (
-      <div className='min-h-screen flex items-center justify-center'>
-        <div className='text-center'>
-          <h1 className='text-2xl font-bold mb-4'>Product Not Found</h1>
-          <Link to='/'>
-            <Button>Back to Products</Button>
-          </Link>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Product not found</h1>
+          <Button onClick={() => navigate('/products')}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Products
+          </Button>
         </div>
       </div>
-    )
+    );
   }
-
-  const inCart = isInCart(product.id)
 
   const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
-      addToCart(product)
+    if (!selectedColor || !selectedStorage) {
+      toast({
+        title: "Please select options",
+        description: "Choose color and storage before adding to cart.",
+        variant: "destructive",
+      });
+      return;
     }
-  }
 
-  const handleRemoveFromCart = () => {
-    removeFromCart(product.id)
-  }
+    for (let i = 0; i < quantity; i++) {
+      addToCart(phone, selectedColor, selectedStorage);
+    }
+  };
 
   return (
-    
-    <div className='min-h-screen bg-gradient-hero'>
-      <div className='container mx-auto px-4 py-8'>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-8">
         {/* Back Button */}
-        <Link
-          to='/'
-          className='inline-flex items-center text-muted-foreground hover:text-primary transition-colors mb-8'
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate(-1)}
+          className="mb-6"
         >
-          <ArrowLeft className='h-4 w-4 mr-2' />
-          Back to Products
-        </Link>
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back
+        </Button>
 
-        <div className='grid grid-rows-6 gap-12 items-start'>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Product Image */}
-          <div className='space-y-4'>
-            <Card className='overflow-hidden bg-gradient-card shadow-card border-0'>
-              <img
-                src={product.image}
-                alt={product.title}
-                className='w-full h-96 lg:h-[500px] object-cover'
-              />
-            </Card>
-
-            {/* Thumbnail images would go here */}
-            <div className='grid grid-cols-4 gap-4'>
-              {[1, 2, 3, 4].map((i) => (
-                <Card
-                  key={i}
-                  className='overflow-hidden cursor-pointer opacity-60 hover:opacity-100 transition-opacity'
-                >
+          <div className="space-y-4">
+            <Card className="bg-gradient-card">
+              <CardContent className="p-8">
+                <div className="relative">
                   <img
-                    src={product.image}
-                    alt={`${product.title} ${i}`}
-                    className='w-full h-20 object-cover'
+                    src={phone.imagesByColor?.[selectedColor] || phone.image}
+                    alt={`${phone.name} - ${selectedColor || 'Default'}`}
+                    className="w-full h-96 object-cover rounded-lg"
                   />
-                </Card>
-              ))}
-            </div>
+                  {phone.isNew && (
+                    <Badge className="absolute top-4 left-4 bg-accent text-accent-foreground">
+                      New
+                    </Badge>
+                  )}
+                  {phone.isBestSeller && (
+                    <Badge className="absolute top-4 right-4 bg-warning text-warning-foreground">
+                      Best Seller
+                    </Badge>
+                  )}
+                  {!phone.inStock && (
+                    <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
+                      <Badge variant="destructive" className="text-lg font-medium px-6 py-2">
+                        Out of Stock
+                      </Badge>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
-          {/* Product Details */}
-          <div className='space-y-6'>
+          {/* Product Info */}
+          <div className="space-y-6">
             <div>
-              <Badge variant='secondary' className='mb-3'>
-                {product.category}
-              </Badge>
-              <h1 className='text-3xl lg:text-4xl font-bold mb-4'>
-                {product.title}
-              </h1>
-              <div className='flex items-center space-x-4 mb-4'>
-                <div className='flex items-center'>
-                  {[1, 2, 3, 4, 5].map((star) => (
+              <div className="flex items-center gap-2 mb-2">
+                <Badge variant="outline">{phone.brand}</Badge>
+                {phone.inStock ? (
+                  <Badge className="bg-success text-success-foreground">
+                    <Check className="w-3 h-3 mr-1" />
+                    In Stock
+                  </Badge>
+                ) : (
+                  <Badge variant="destructive">Out of Stock</Badge>
+                )}
+              </div>
+              
+              <h1 className="text-3xl md:text-4xl font-bold mb-4">{phone.name}</h1>
+              
+              <div className="flex items-center gap-4 mb-4">
+                <div className="flex items-center">
+                  {[...Array(5)].map((_, i) => (
                     <Star
-                      key={star}
-                      className='h-5 w-5 fill-yellow-400 text-yellow-400'
+                      key={i}
+                      className={`w-5 h-5 ${
+                        i < Math.floor(phone.rating)
+                          ? 'text-warning fill-current'
+                          : 'text-muted-foreground'
+                      }`}
                     />
                   ))}
-                  <span className='text-muted-foreground ml-2'>
-                    (128 reviews)
+                  <span className="ml-2 text-sm text-muted-foreground">
+                    {phone.rating} ({phone.reviews} reviews)
                   </span>
                 </div>
               </div>
-              <p className='text-muted-foreground text-lg leading-relaxed'>
-                {product.description}
+
+              <div className="flex items-center gap-4 mb-6">
+                <span className="text-3xl font-bold text-primary">
+                  ₮{phone.price.toLocaleString()}
+                </span>
+                {phone.originalPrice && (
+                  <span className="text-xl text-muted-foreground line-through">
+                    ₮{phone.originalPrice.toLocaleString()}
+                  </span>
+                )}
+                {phone.originalPrice && (
+                  <Badge className="bg-destructive text-destructive-foreground">
+                    Save ₮{(phone.originalPrice - phone.price).toLocaleString()}
+                  </Badge>
+                )}
+              </div>
+
+              <p className="text-muted-foreground mb-6 text-lg leading-relaxed">
+                {phone.description}
               </p>
             </div>
 
-            {/* Price */}
-            <div className='flex items-baseline space-x-4'>
-              <span className='text-4xl font-bold text-brand-primary'>
-                ${product.price}
-              </span>
-              <span className='text-xl text-muted-foreground line-through'>
-                ${(product.price * 1.2).toFixed(2)}
-              </span>
-              <Badge variant='destructive'>20% OFF</Badge>
-            </div>
+            {/* Options */}
+            {phone.inStock && (
+              <div className="space-y-4">
+                {/* Color Selection */}
+                {phone.colors[0] !== 'TBA' && (
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
+                      Color: <span className="text-primary">{selectedColor}</span>
+                    </label>
+                    <Select value={selectedColor} onValueChange={setSelectedColor}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select color" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {phone.colors.map((color) => (
+                          <SelectItem key={color} value={color}>
+                            {color}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
 
-            {/* Quantity Selector */}
-            <div className='flex items-center space-x-4'>
-              <span className='font-medium'>Quantity:</span>
-              <div className='flex items-center space-x-2'>
-                <Button
-                  variant='outline'
-                  size='icon'
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  disabled={quantity <= 1}
-                >
-                  <Minus className='h-4 w-4' />
-                </Button>
-                <span className='w-12 text-center font-medium'>{quantity}</span>
-                <Button
-                  variant='outline'
-                  size='icon'
-                  onClick={() => setQuantity(quantity + 1)}
-                >
-                  <Plus className='h-4 w-4' />
-                </Button>
+                {/* Storage Selection */}
+                {phone.storage[0] !== 'TBA' && (
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
+                      Storage: <span className="text-primary">{selectedStorage}</span>
+                    </label>
+                    <Select value={selectedStorage} onValueChange={setSelectedStorage}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select storage" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {phone.storage.map((storage) => (
+                          <SelectItem key={storage} value={storage}>
+                            {storage}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+
+                {/* Quantity */}
+                <div>
+                  <label className="block text-sm font-medium mb-2">Quantity</label>
+                  <Select value={quantity.toString()} onValueChange={(value) => setQuantity(parseInt(value))}>
+                    <SelectTrigger className="w-32">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[1, 2, 3, 4, 5].map((num) => (
+                        <SelectItem key={num} value={num.toString()}>
+                          {num}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Action Buttons */}
-            <div className='flex flex-col sm:flex-row gap-4'>
-              {inCart ? (
-                <Button
-                  variant='destructive'
-                  size='lg'
-                  className='flex-1'
-                  onClick={handleRemoveFromCart}
-                >
-                  Remove from Cart
-                </Button>
-              ) : (
-                <Button
-                  size='lg'
-                  className='flex-1 bg-gradient-primary hover:shadow-button transition-all duration-300 transform hover:scale-105'
-                  onClick={handleAddToCart}
-                >
-                  Add to Cart - ${(product.price * quantity).toFixed(2)}
-                </Button>
-              )}
-
-              <div className='flex space-x-2'>
-                <Button
-                  variant='outline'
-                  size='icon'
-                  onClick={() => setIsLiked(!isLiked)}
-                  className='transition-bounce transform hover:scale-110'
-                >
-                  <Heart
-                    className={`h-5 w-5 ${
-                      isLiked ? "fill-red-500 text-red-500" : ""
-                    }`}
-                  />
-                </Button>
-                <Button
-                  variant='outline'
-                  size='icon'
-                  className='transition-bounce transform hover:scale-110'
-                >
-                  <Share2 className='h-5 w-5' />
-                </Button>
-              </div>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button
+                variant="cart"
+                size="lg"
+                className="flex-1"
+                onClick={handleAddToCart}
+                disabled={!phone.inStock}
+              >
+                <ShoppingCart className="w-5 h-5 mr-2" />
+                {phone.inStock ? 'Add to Cart' : 'Out of Stock'}
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="sm:w-auto"
+                onClick={() => toast({ title: "Added to wishlist!" })}
+              >
+                <Heart className="w-5 h-5" />
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="sm:w-auto"
+                onClick={() => {
+                  navigator.share?.({ 
+                    title: phone.name, 
+                    url: window.location.href 
+                  }) || toast({ title: "Link copied!" });
+                }}
+              >
+                <Share2 className="w-5 h-5" />
+              </Button>
             </div>
 
-            {/* Product Features */}
-            <Card className='bg-gradient-card shadow-card border-0'>
-              <CardContent className='p-6'>
-                <h3 className='font-semibold mb-4'>Product Features</h3>
-                <ul className='space-y-2 text-muted-foreground'>
-                  <li className='flex items-start'>
-                    <span className='w-2 h-2 bg-brand-primary rounded-full mt-2 mr-3 flex-shrink-0'></span>
-                    Premium quality materials and construction
-                  </li>
-                  <li className='flex items-start'>
-                    <span className='w-2 h-2 bg-brand-primary rounded-full mt-2 mr-3 flex-shrink-0'></span>
-                    30-day money-back guarantee
-                  </li>
-                  <li className='flex items-start'>
-                    <span className='w-2 h-2 bg-brand-primary rounded-full mt-2 mr-3 flex-shrink-0'></span>
-                    Free shipping on orders over $50
-                  </li>
-                  <li className='flex items-start'>
-                    <span className='w-2 h-2 bg-brand-primary rounded-full mt-2 mr-3 flex-shrink-0'></span>
-                    24/7 customer support
-                  </li>
+            {/* Features */}
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="font-semibold text-lg mb-4">Key Features</h3>
+                <ul className="space-y-2">
+                  {phone.features.map((feature, index) => (
+                    <li key={index} className="flex items-center">
+                      <Check className="w-4 h-4 text-success mr-3" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
                 </ul>
               </CardContent>
             </Card>
@@ -213,7 +277,7 @@ const ProductDetail = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductDetail
+export default ProductDetail;
