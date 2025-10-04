@@ -13,6 +13,8 @@ import { toast } from '@/hooks/use-toast';
 import { FadeIn } from '@/components/anim/FadeIn';
 import { Reveal } from '@/components/anim/Reveal';
 
+export const dynamic = "force-dynamic";
+
 export default function ProductDetailPage() {
   const params = useParams();
   const id = (params?.id as string) || '';

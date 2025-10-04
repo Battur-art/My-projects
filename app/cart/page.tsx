@@ -1,9 +1,12 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/enhanced-button';
+
+import { Button } from "@/components/ui/enhanced-button";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from 'lucide-react';

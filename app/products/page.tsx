@@ -1,6 +1,7 @@
 "use client";
-import React, { useMemo, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+
+import React, { useMemo, useState, useEffect } from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/enhanced-button";
 import { Input } from "@/components/ui/input";
@@ -10,16 +11,32 @@ import { phones } from "@/data/phones";
 import { Search, Filter, X } from "lucide-react";
 import { FadeIn } from "@/components/anim/FadeIn";
 
+export const dynamic = "force-dynamic";
+
 export default function ProductsPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const pathname = usePathname();
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedBrand, setSelectedBrand] = useState<string>("all");
+  // Get search params from URL safely
+  const search = searchParams ? searchParams.get('search') || '' : '';
+  const brand = searchParams ? searchParams.get('brand') || 'all' : 'all';
+
+  const [searchTerm, setSearchTerm] = useState(search);
+  const [selectedBrand, setSelectedBrand] = useState<string>(brand);
+
+  // Update URL when filters change
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (searchTerm) params.set('search', searchTerm);
+    if (selectedBrand !== 'all') params.set('brand', selectedBrand);
+    
+    router.replace(`${pathname}?${params.toString()}`);
+  }, [searchTerm, selectedBrand, pathname, router]);
   const [sortBy, setSortBy] = useState<string>("name");
   const [priceRange, setPriceRange] = useState<string>("all");
 
-  const urlFilter = searchParams?.get("filter");
+  const urlFilter = searchParams ? searchParams.get("filter") : null;
 
   const filteredAndSortedPhones = useMemo(() => {
     let filtered = phones.filter((phone) => phone.inStock);
