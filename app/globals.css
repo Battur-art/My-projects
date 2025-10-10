@@ -2,144 +2,93 @@
 @tailwind components;
 @tailwind utilities;
 
-/* E-commerce Mobile Commerce Design System - Tech Premium Theme */
+/* F1 Racing Design System - Premium, High-Tech, Aggressive
+All colors MUST be HSL.
+*/
 
 @layer base {
   :root {
-    /* Minimalist grayscale palette (Apple-like) */
-    --background: 0 0% 100%; /* white */
-    --foreground: 0 0% 10%;  /* near-black text */
+    /* F1 Brand Colors */
+    --f1-black: 0 0% 4%;
+    --f1-red: 2 94% 44%;
+    --f1-white: 0 0% 100%;
+    --f1-gray: 0 0% 54%;
+    --f1-dark-gray: 0 0% 10%;
+    --f1-carbon: 0 0% 8%;
+    --f1-silver: 0 0% 85%;
+    
+    /* Core System Colors */
+    --background: 0 0% 4%;
+    --foreground: 0 0% 100%;
 
-    /* Card and popover */
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 100%;
 
-    /* Primary (buttons/links) */
-    --primary: 0 0% 10%;        /* black */
-    --primary-foreground: 0 0% 100%; /* white on black */
-    --primary-hover: 0 0% 15%;  /* slightly lighter black */
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 100%;
 
-    /* Secondary (surfaces) */
-    --secondary: 0 0% 96%;      /* very light gray */
-    --secondary-foreground: 0 0% 10%;
+    --primary: 2 94% 44%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Muted */
-    --muted: 0 0% 94%;
-    --muted-foreground: 0 0% 45%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
 
-    /* Accent also grayscale */
-    --accent: 0 0% 10%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 54%;
+
+    --accent: 2 94% 44%;
     --accent-foreground: 0 0% 100%;
 
-    /* Destructive and status (kept for UX clarity) */
-    --destructive: 0 72% 46%;
-    --destructive-foreground: 0 0% 98%;
-    --success: 156 45% 38%;
-    --success-foreground: 0 0% 100%;
-    --warning: 36 90% 55%;
-    --warning-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
 
-    /* Borders/inputs/ring */
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 10%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 2 94% 44%;
 
-    /* Grayscale gradients */
-    --gradient-primary: linear-gradient(180deg, hsl(0 0% 10%), hsl(0 0% 0%));
-    --gradient-hero: linear-gradient(180deg, hsl(0 0% 100%), hsl(0 0% 96%));
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(0 0% 96%));
-
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.08);
-    --shadow-card: 0 4px 18px -2px hsl(0 0% 0% / 0.08);
-    --shadow-product: 0 14px 30px -8px hsl(0 0% 0% / 0.12);
-    --shadow-glow: 0 0 24px hsl(0 0% 0% / 0.12);
-
-    /* Radius & transitions */
-    --radius: 0.75rem;
+    /* F1 Specific Design Tokens */
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 4%) 0%, hsl(0 0% 8%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 8%) 0%, hsl(0 0% 6%) 100%);
+    --gradient-racing: linear-gradient(90deg, hsl(2 94% 44%) 0%, hsl(15 100% 50%) 100%);
+    
+    --shadow-card: 0 10px 30px -10px hsl(0 0% 0% / 0.5);
+    --shadow-glow: 0 0 40px hsl(2 94% 44% / 0.3);
+    --shadow-racing: 0 5px 20px hsl(2 94% 44% / 0.4);
+    
+    --border-racing: 1px solid hsl(2 94% 44% / 0.3);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-racing: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
-  .dark {
-    /* Dark grayscale variant */
-    --background: 0 0% 7%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 9%;
-    --card-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 7%;
-    --secondary: 0 0% 12%;
-    --secondary-foreground: 0 0% 92%;
-    --muted: 0 0% 14%;
-    --muted-foreground: 0 0% 70%;
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 7%;
-    --border: 0 0% 16%;
-    --input: 0 0% 16%;
-  }
-}
-
-@layer components {
-  /* Gradient backgrounds */
-  .bg-gradient-primary {
-    background: var(--gradient-primary);
-  }
-  
-  .bg-gradient-hero {
-    background: var(--gradient-hero);
-  }
-  
-  .bg-gradient-card {
-    background: var(--gradient-card);
-  }
-
-  /* Timeless & Elegant utilities */
-  .text-gold { color: hsl(var(--gold)); }
-  .bg-gold { background-color: hsl(var(--gold)); }
-  .border-gold { border-color: hsl(var(--gold)); }
-
-  .text-navy { color: hsl(var(--navy)); }
-  .bg-navy { background-color: hsl(var(--navy)); }
-  .border-navy { border-color: hsl(var(--navy)); }
-
-  .bg-gradient-gold-navy {
-    background: linear-gradient(135deg, hsl(var(--gold)) 0%, hsl(35 85% 50%) 40%, hsl(var(--navy)) 100%);
-  }
-
-  /* Custom shadows */
-  .shadow-product {
-    box-shadow: var(--shadow-product);
-  }
-  
-  .shadow-glow {
-    box-shadow: var(--shadow-glow);
-  }
-
-  /* Smooth transitions */
-  .transition-smooth {
-    transition: var(--transition-smooth);
-  }
-  
-  .transition-bounce {
-    transition: var(--transition-bounce);
-  }
-
-  /* Product card hover effects */
-  .product-hover {
-    @apply transition-smooth hover:shadow-product hover:-translate-y-1;
-  }
-
-  /* Cart badge animation */
-  .cart-badge {
-    @apply transition-bounce hover:scale-110;
-  }
-
-  /* Button glow effect */
-  .btn-glow {
-    @apply hover:shadow-glow transition-smooth;
+  /* Light mode (kept minimal since F1 aesthetic is primarily dark) */
+  .light {
+    --background: 0 0% 98%;
+    --foreground: 0 0% 4%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 4%;
+    --primary: 2 94% 44%;
+    --secondary: 0 0% 90%;
+    --muted: 0 0% 90%;
+    --border: 0 0% 85%;
+    --input: 0 0% 85%;
   }
 }
 
@@ -151,21 +100,80 @@
   body {
     @apply bg-background text-foreground font-sans;
   }
-
-  /* Scrollbar styling */
-  ::-webkit-scrollbar {
-    @apply w-2 h-2;
+  
+  /* F1 Typography */
+  .heading-f1 {
+    @apply font-bold text-transparent bg-clip-text;
+    background-image: var(--gradient-racing);
   }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-secondary;
+  
+  .text-racing {
+    @apply text-primary;
   }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-muted-foreground rounded-full;
+  
+  .bg-racing {
+    background: var(--gradient-racing);
   }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-primary;
+  
+  .shadow-racing {
+    box-shadow: var(--shadow-racing);
   }
+}
+
+@layer components {
+  /* F1 Component Styles */
+  .card-f1 {
+    @apply bg-card border border-border rounded-xl;
+    background: var(--gradient-card);
+    box-shadow: var(--shadow-card);
+    transition: var(--transition-smooth);
+  }
+  
+  .card-f1:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .btn-racing {
+    @apply px-6 py-3 rounded-xl font-semibold text-white relative overflow-hidden;
+    background: var(--gradient-racing);
+    box-shadow: var(--shadow-racing);
+    transition: var(--transition-racing);
+  }
+  
+  .btn-racing:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px hsl(2 94% 44% / 0.5);
+  }
+  
+  .hero-overlay {
+    background: linear-gradient(135deg, hsl(0 0% 0% / 0.8) 0%, hsl(0 0% 0% / 0.4) 100%);
+  }
+}
+
+/* F1 Animations */
+@keyframes racing-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes speed-line {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-racing-pulse {
+  animation: racing-pulse 2s ease-in-out infinite;
+}
+
+.animate-speed-line {
+  animation: speed-line 1.5s ease-in-out infinite;
 }

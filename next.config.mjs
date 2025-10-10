@@ -1,7 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // If you plan to serve images from /public/images, no extra config is needed.
+  experimental: {
+    typedRoutes: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "lovable.dev",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

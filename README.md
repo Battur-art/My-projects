@@ -2,7 +2,7 @@
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/b8926ab5-617a-41de-b946-d19794139207
+**URL**: https://lovable.dev/projects/e0bda84f-5fd9-4488-9b1d-7234e296202a
 
 ## How can I edit this code?
 
@@ -10,7 +10,7 @@ There are several ways of editing your application.
 
 **Use Lovable**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/b8926ab5-617a-41de-b946-d19794139207) and start prompting.
+Simply visit the [Lovable Project](https://lovable.dev/projects/e0bda84f-5fd9-4488-9b1d-7234e296202a) and start prompting.
 
 Changes made via Lovable will be committed automatically to this repo.
 
@@ -62,7 +62,7 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/b8926ab5-617a-41de-b946-d19794139207) and click on Share -> Publish.
+Simply open [Lovable](https://lovable.dev/projects/e0bda84f-5fd9-4488-9b1d-7234e296202a) and click on Share -> Publish.
 
 ## Can I connect a custom domain to my Lovable project?
 
@@ -71,3 +71,11 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+
+## Media Credits
+
+Circuit outline thumbnails used in `src/components/TracksGrid.tsx` are sourced from Wikipedia/Wikimedia Commons and remain under their original licenses (typically CC BY-SA/GFDL). See each file's page on Wikimedia Commons for exact licensing and authorship details.
+
+- Source: https://commons.wikimedia.org/
+- Files are placed under `public/images/tracks/`.
+- If you replace or add circuits, please ensure proper attribution and license compliance.
