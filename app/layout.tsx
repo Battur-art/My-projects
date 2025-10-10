@@ -11,11 +11,8 @@ export const metadata: Metadata = {
     description:
       "Formula 1 drivers, technology, and history presented as a visual journey through the pinnacle of motorsport",
     type: "website",
-    images: [
-      {
-        url: "https://lovable.dev/opengraph-image-p98pqg.png",
-      },
-    ],
+   
+  
   },
   twitter: {
     card: "summary_large_image",
