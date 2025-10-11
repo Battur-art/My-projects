@@ -42,10 +42,9 @@ const Contact = () => {
               F1 Showcase Portfolio
             </h3>
             <p className="text-f1-silver mb-4">
-              Built with React, TypeScript, and Tailwind CSS
             </p>
             <p className="text-sm text-f1-gray">
-              © 2024 F1 Showcase. All rights reserved.
+              © 2025 F1 Showcase. All rights reserved.
             </p>
           </div>
         </div>
